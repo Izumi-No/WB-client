@@ -28,12 +28,13 @@ function App() {
   const [message, setMessage] = useState("");
   const [previas, setPrevias] = useState([]);
   const [isBinary, setBinary] = useState(false);
-  
-  socket.on("previas", data => setPrevias(data));
+
 
   const ph = useColorModeValue("black", "white");
 
-  document.addEventListener("DOMContentLoaded", onOpen);
+  document.addEventListener("DOMContentLoaded", ()=>{onOpen();
+    socket.on("previas", data => setPrevias(data));
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
