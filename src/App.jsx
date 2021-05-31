@@ -22,13 +22,14 @@ const Style = styled.div`
 `;
 
 const socket = io("https://cottony-pricey-naranja.glitch.me/");
-
 function App() {
   const { isOpen, onOpen, onClose } = useDisclosure(true);
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [previas, setPrevias] = useState([]);
   const [isBinary, setBinary] = useState(false);
+  
+  socket.on("previas", data => setPrevias(data));
 
   const ph = useColorModeValue("black", "white");
 
@@ -37,7 +38,7 @@ function App() {
   const handleSubmit = e => {
     e.preventDefault();
 
-    socket.on("previas", data => setPrevias(data));
+
 
     if (message.length && message.charAt(0) !== " ") {
       socket.emit("message", { username: username, mensage: message });
