@@ -80,7 +80,7 @@ function App() {
           justifyItems="center"
           flexDir="column"
           justifyContent="center"
-          overflowY="scroll"
+          overflowY="auto"
         >
           {previas.map(bagui => {
             if (bagui.username === username) {
