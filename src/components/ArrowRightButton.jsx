@@ -1,11 +1,10 @@
-import { Button, createIcon, useColorModeValue, Icon } from '@chakra-ui/react'
+import { Button, useColorModeValue, Icon } from '@chakra-ui/react'
 import {IoArrowForwardOutline} from 'react-icons/io5'
 
  
 
 
 
- const ArrowRightIcon = createIcon(IoArrowForwardOutline)
 
  function ArrowRightButton(props) {
     
