@@ -199,6 +199,7 @@ function App() {
                       h="35px"
                       borderRadius="35px"
                       placeholder="digite seu usuario"
+                      maxLength={8}
                       style={{
                         border: "none",
                         boxShadow: "-1px 2px 5px 0 rgba(0, 0, 0, .25)"
