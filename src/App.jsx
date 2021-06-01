@@ -7,11 +7,12 @@ import {
   Modal,
   useDisclosure,
   ScaleFade,
-  Text
+  Text,
+  SlideFade
 } from "@chakra-ui/react";
 import ArrowRightButton from "./components/ArrowRightButton";
 import styled from "@emotion/styled";
-import {Global, css} from "@emotion/react"
+import { Global, css } from "@emotion/react"
 import io from "socket.io-client";
 
 const Style = styled.div`
@@ -25,18 +26,22 @@ const Style = styled.div`
 
 const socket = io("https://cottony-pricey-naranja.glitch.me/");
 function App() {
-  const { isOpen, onOpen, onClose } = useDisclosure(true);
+  const { isOpen, onOpen, onClose } = useDisclosure(false);
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [previas, setPrevias] = useState([]);
   const [isBinary, setBinary] = useState(false);
+  const [isLoaded, setLoaded] = useState(false);
+  const [isCagado, setCagado] = useState(false)
 
-  const textColor = useColorModeValue("white","black")
-  const OtherTextColor = useColorModeValue("black","white")
+  const textColor = useColorModeValue("white", "black")
+  const OtherTextColor = useColorModeValue("black", "white")
 
   const ph = useColorModeValue("black", "white");
 
-  document.addEventListener("DOMContentLoaded", ()=>{onOpen();
+  document.addEventListener("DOMContentLoaded", () => {
+    setLoaded(true)
+    onOpen();
     socket.on("previas", data => setPrevias(data));
   });
 
@@ -55,7 +60,8 @@ function App() {
 
     if (username.length && username.charAt(0) !== " ") {
       onClose();
-      setBinary(false)
+      setBinary(false);
+      setCagado(true)
     }
   };
 
@@ -63,11 +69,11 @@ function App() {
     console.log(socket.id);
   });
 
-const MyBoxBg = useColorModeValue("gray.900", "white")
-const OtherBoxBg = useColorModeValue( "white" ,"gray.900")
+  const MyBoxBg = useColorModeValue("gray.900", "white")
+  const OtherBoxBg = useColorModeValue("white", "gray.900")
   return (
     <>
-    <Global styles={css`
+      <Global styles={css`
 ::-webkit-scrollbar {
   min-width: 35px;
   width: 35px;
@@ -94,7 +100,7 @@ const OtherBoxBg = useColorModeValue( "white" ,"gray.900")
 }
 
     `}>
-    </Global>
+      </Global>
       <Box
         minH="100vh"
         minW="100vw"
@@ -102,9 +108,9 @@ const OtherBoxBg = useColorModeValue( "white" ,"gray.900")
         placeContent="center"
         placeItems="center"
         overflow="hidden"
-      >
+      ><SlideFade delay="4s" in={isCagado} offsetY="20px">
         <Box
-        className="messages-container"
+          className="messages-container"
           borderRadius="16px"
           boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)"
           p="5px"
@@ -115,8 +121,9 @@ const OtherBoxBg = useColorModeValue( "white" ,"gray.900")
           flexDir="column"
           justifyContent="center"
           overflowY="auto"
-          
+
         >
+          
           {previas.map(bagui => {
             if (bagui.username === username) {
               return (
@@ -126,11 +133,11 @@ const OtherBoxBg = useColorModeValue( "white" ,"gray.900")
                   className="my-message"
                   width="100%"
                   flexDir="row-reverse"
-                  
+
                 >
-                  <Box textAlign="center" display="block" minWidth="0"  maxWidth="48%" p="3px"  justifyContent="center" justifyItems="center" wordBreak="break-word" boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)" background={MyBoxBg} marginTop="4px" color={textColor} borderRadius="12px">
-                  
-                  <Text margin="0">{isBinary ? bagui.binary : bagui.text} </Text>
+                  <Box  display="flex" flexFlow="wrap" minWidth="0" maxWidth="48%" p="4px" justifyContent="center" justifyItems="center" wordBreak="break-word" boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)" background={MyBoxBg} marginTop="6px" color={textColor} borderRadius="12px">
+
+                    <Text margin="0">{isBinary ? bagui.binary : bagui.text} </Text>
                   </Box>
                 </Box>
               );
@@ -142,18 +149,19 @@ const OtherBoxBg = useColorModeValue( "white" ,"gray.900")
                   width="100%"
                   flexDir="row"
                   
+
                 >
-                  <Box textAlign="center" display="block" minWidth="0"  maxWidth="50%" p="3px"  justifyContent="center" justifyItems="center" wordBreak="break-word" boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)" background={OtherBoxBg} marginTop="4px" color={OtherTextColor} borderRadius="12px">
-                  <Text fontWeight="500">
-                    {bagui.username}
-                  </Text>
-                  <Text>{isBinary ? bagui.binary : bagui.text} </Text>
+                  <Box display="flex" flexFlow="column" minWidth="0" maxWidth="50%" p="4px" justifyContent="flex-start" justifyItems="center" wordBreak="break-word" boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)" background={OtherBoxBg} marginTop="6px" color={OtherTextColor} borderRadius="12px">
+                    <Text fontSize="0.75em" fontWeight="500">
+                      {bagui.username}
+                    </Text>
+                    <Text>{isBinary ? bagui.binary : bagui.text} </Text>
                   </Box>
                 </Box>
               );
             }
           })}
-        </Box>
+        </Box></SlideFade>
         <form onSubmit={handleSubmit}>
           <HStack marginTop="5px">
             <Style color={ph}>
@@ -189,7 +197,7 @@ const OtherBoxBg = useColorModeValue( "white" ,"gray.900")
           placeItems="center"
           motionPreset="fade"
         >
-          <ScaleFade delay="3s" initialScale={0.9} in={isOpen}>
+          <ScaleFade delay="4s" initialScale={0.9} in={isLoaded}>
             <form onSubmit={userHandler}>
               <HStack>
                 <Style color={ph}>
