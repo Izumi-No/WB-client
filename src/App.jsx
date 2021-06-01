@@ -11,15 +11,17 @@ import {
 } from "@chakra-ui/react";
 import ArrowRightButton from "./components/ArrowRightButton";
 import styled from "@emotion/styled";
-
+import {Global, css} from "@emotion/react"
 import io from "socket.io-client";
 
 const Style = styled.div`
   .entrada::placeholder {
     color: ${props => props.color};
-    opacity: 0.298;
+    opacity: .3;
   }
 `;
+
+
 
 const socket = io("https://cottony-pricey-naranja.glitch.me/");
 function App() {
@@ -63,16 +65,46 @@ function App() {
 
   return (
     <>
+    <Global styles={css`
+::-webkit-scrollbar {
+  min-width: 35px;
+  width: 35px;
+  min-height: 20px;
+  height: 20px;
+  z-index: -1;
+  
+}
+ 
+::-webkit-scrollbar-width{
+  
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 16px;
+  min-height: 35px;
+  background-color: rgba(207, 207, 207, 0.25);
+  
+    
+}
+::-webkit-scrollbar-thumb:hover{
+  background-color: rgba(207, 207, 207, 0.5);
+  
+  
+}
+
+    `}>
+    </Global>
       <Box
         minH="100vh"
         minW="100vw"
         display={isOpen ? "none" : "grid"}
         placeContent="center"
         placeItems="center"
+        overflow="hidden"
       >
         <Box
+        className="messages-container"
           borderRadius="16px"
-          boxShadow="-1px 1px 2px 0 rgba(0, 0, 0, .20)"
+          boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)"
           p="5px"
           h="40vh"
           w="350px"
@@ -81,6 +113,7 @@ function App() {
           flexDir="column"
           justifyContent="center"
           overflowY="auto"
+          
         >
           {previas.map(bagui => {
             if (bagui.username === username) {
