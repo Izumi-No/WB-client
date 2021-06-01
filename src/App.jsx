@@ -31,6 +31,8 @@ function App() {
   const [previas, setPrevias] = useState([]);
   const [isBinary, setBinary] = useState(false);
 
+  const textColor = useColorModeValue("white","black")
+  const OtherTextColor = useColorModeValue("black","white")
 
   const ph = useColorModeValue("black", "white");
 
@@ -40,7 +42,6 @@ function App() {
 
   const handleSubmit = e => {
     e.preventDefault();
-
 
 
     if (message.length && message.charAt(0) !== " ") {
@@ -62,7 +63,8 @@ function App() {
     console.log(socket.id);
   });
 
-
+const MyBoxBg = useColorModeValue("gray.900", "white")
+const OtherBoxBg = useColorModeValue( "white" ,"gray.900")
   return (
     <>
     <Global styles={css`
@@ -106,7 +108,7 @@ function App() {
           borderRadius="16px"
           boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)"
           p="5px"
-          h="40vh"
+          h="60vh"
           w="350px"
           display="flex"
           justifyItems="center"
@@ -119,29 +121,34 @@ function App() {
             if (bagui.username === username) {
               return (
                 <Box
-                  display="block"
+                  display="flex"
+                  overscrollY="auto"
                   className="my-message"
-                  width={`${bagui.username.length + 68}px`}
-                  marginLeft={`calc(100% - ${bagui.username.length + 64}px)`}
+                  width="100%"
+                  flexDir="row-reverse"
+                  
                 >
-                  <Text>
-                    <strong>{bagui.username}</strong>:
-                  </Text>
-                  <Text>{isBinary ? bagui.binary : bagui.text} </Text>
+                  <Box textAlign="center" display="block" minWidth="0"  maxWidth="48%" p="3px"  justifyContent="center" justifyItems="center" wordBreak="break-word" boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)" background={MyBoxBg} marginTop="4px" color={textColor} borderRadius="12px">
+                  
+                  <Text margin="0">{isBinary ? bagui.binary : bagui.text} </Text>
+                  </Box>
                 </Box>
               );
             } else {
               return (
                 <Box
-                  display="block"
+                  display="flex"
                   className="other-message"
-                  width={`${bagui.username.length + 128}px`}
-                  textAlign="left"
+                  width="100%"
+                  flexDir="row"
+                  
                 >
-                  <Text>
-                    <strong>{bagui.username}</strong>:
+                  <Box textAlign="center" display="block" minWidth="0"  maxWidth="50%" p="3px"  justifyContent="center" justifyItems="center" wordBreak="break-word" boxShadow="-1px 1px 3px 0 rgba(0, 0, 0, .25)" background={OtherBoxBg} marginTop="4px" color={OtherTextColor} borderRadius="12px">
+                  <Text fontWeight="500">
+                    {bagui.username}
                   </Text>
                   <Text>{isBinary ? bagui.binary : bagui.text} </Text>
+                  </Box>
                 </Box>
               );
             }
