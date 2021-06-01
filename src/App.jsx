@@ -108,7 +108,7 @@ function App() {
         placeContent="center"
         placeItems="center"
         overflow="hidden"
-      ><SlideFade delay="4s" in={isCagado} offsetY="20px">
+      ><SlideFade  in={isCagado} offsetY="20px">
         <Box
           className="messages-container"
           borderRadius="16px"
@@ -197,7 +197,7 @@ function App() {
           placeItems="center"
           motionPreset="fade"
         >
-          <ScaleFade delay="4s" initialScale={0.9} in={isLoaded}>
+          <ScaleFade initialScale={0.9} in={isLoaded}>
             <form onSubmit={userHandler}>
               <HStack>
                 <Style color={ph}>
